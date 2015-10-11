@@ -65,7 +65,7 @@ void main(){
 		printf("WaitForSingleObject failed (%d)\n", GetLastError());
 	else printf("Timer was signaled.\n");
 
-	STARTUPINFO si;
+	/*STARTUPINFO si;
 	PROCESS_INFORMATION pi;
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
@@ -74,7 +74,7 @@ void main(){
 		0, NULL, NULL, &si, &pi))
 		printf("WaitForSingleObject failed (%d)\n", GetLastError());
 	std::cin.get();
-	// Close process and thread handles.
+	// Close process and thread handles.*/
 
 
 	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
