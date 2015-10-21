@@ -6,8 +6,8 @@
 #include <aclapi.h>
 #include <tchar.h>
 #include <iostream>
-void main(){
-//Create structure of Waitable Timer
+void main() {
+	//Create structure of Waitable Timer
 	//Define the parameters
 	HANDLE hTimer = NULL, htTimer = NULL, hthTimer = NULL;
 	LPSECURITY_ATTRIBUTES lpTimerAttributes = NULL;
@@ -21,7 +21,7 @@ void main(){
 	if (NULL == hTimer)
 	{
 		printf("CreateWaitableTimer failed (%d)\n", GetLastError());
-		return ;
+		return;
 	}
 	else (printf("successful completion\n"));
 	printf("timer = %d\n", hTimer);
@@ -52,40 +52,32 @@ void main(){
 
 	printf("timer = %d\n", newTimer);
 	/**************************************************************************************/
-	
-	
+
+
 	LARGE_INTEGER liDueTime;
 	liDueTime.QuadPart = -100000000LL;
 	if (!SetWaitableTimer(hTimer, &liDueTime, 0, NULL, NULL, 0))
 	{
 		printf("SetWaitableTimer failed (%d)\n", GetLastError());
-		return ;
+		return;
 	}
-	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
-		printf("WaitForSingleObject failed (%d)\n", GetLastError());
+	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)	printf("WaitForSingleObject failed (%d)\n", GetLastError());
 	else printf("Timer was signaled.\n");
 
-	/*STARTUPINFO si;
-	PROCESS_INFORMATION pi;
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	ZeroMemory(&pi, sizeof(pi));
-	if (!CreateProcess("calc", "c:/windows/calc.exe", NULL, NULL, FALSE,
-		0, NULL, NULL, &si, &pi))
-		printf("WaitForSingleObject failed (%d)\n", GetLastError());
-	std::cin.get();
-	// Close process and thread handles.*/
+	STARTUPINFO siForNotepad = { sizeof(siForNotepad) };
+	PROCESS_INFORMATION piForNotepad;
+	TCHAR czCommandLine[] = "Notepad";
+	CreateProcess(NULL, czCommandLine, NULL, NULL, FALSE, 0, NULL, NULL, &siForNotepad, &piForNotepad);
 
-
-	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
-		printf("WaitForSingleObject failed (%d)\n", GetLastError());
+	if (!SetWaitableTimer(hTimer, &liDueTime, 0, NULL, NULL, 0))
+	{
+		printf("SetWaitableTimer failed (%d)\n", GetLastError());
+		return;
+	}
+	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)	printf("WaitForSingleObject failed (%d)\n", GetLastError());
 	else printf("Close process.\n");
 
-	//TerminateProcess("MyF", NULL);
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
-
-
+	TerminateProcess(piForNotepad.hProcess, 0);
 	/**************************************************************************************/
 	VOID USBD_CloseHandle(HANDLE newTimer);
 	VOID USBD_CloseHandle(HANDLE hTimer);
